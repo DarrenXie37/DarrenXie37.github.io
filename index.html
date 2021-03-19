@@ -39,29 +39,29 @@
             liff.init({liffId: myLiffId });
         }
 
-		function pushMsg(m1, m1a, m2, m2a, m3, m3a, price, G_number) {
-			if (m1 == '' ) {  //資料檢查
-				alert('至少輸入1項餐點');
+	function pushMsg(m1, m1a, m2, m2a, m3, m3a, price, G_number) {
+            if (m1 == '' ) {  //資料檢查
+            	alert('至少輸入1項餐點');
             }else if (price == '' ) {
                 alert('未輸入價格');
             }else if (G_number == '' ) {
                 alert('未輸入團號');
             }
 
-			var msg = '';  //回傳訊息字串
-			msg = msg + m1 + " ";
-			msg = msg + price + " ";
-			msg = msg + G_number;
+            var msg = '';  //回傳訊息字串
+            msg = msg + m1 + " ";
+            msg = msg + price + " ";
+            msg = msg + G_number;
 			
             alert(msg)
-		}
+	}
 
-		$(document).ready(function () {
-			initializeLiff('{{ liffid }}');  //接收傳遞的 liffid 參數
-			$('#sure').click(function (e) {  //按下確定鈕
-				pushMsg($('meal01').val(), $('meal01_add').val(), $('meal02').val(), $('meal02_add').val(), $('meal03').val(), $('meal03_add').val(), $('price').val(), $('G_number').val());
-			});
-		});
+	$(document).ready(function () {
+            initializeLiff('1655748594-zRdkN6ko');  //接收傳遞的 liffid 參數
+            $('#sure').click(function (e) {  //按下確定鈕
+            	pushMsg($('meal01').val(), $('meal01_add').val(), $('meal02').val(), $('meal02_add').val(), $('meal03').val(), $('meal03_add').val(), $('price').val(), $('G_number').val());
+            });
+	});
 	</script>
 </body>
 </html>
