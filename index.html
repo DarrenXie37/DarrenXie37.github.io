@@ -1,115 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>LIFF 2 範例 (.NET Core)</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- bootstrap 4.3.1 -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-   <style>
-       #MainDiv button {
-           margin:3px;
-       }
-   </style>
-
-    <script>
-        //你的liff app ID, 例如 --> 0000000000-spPeRmAn
-        var YourLiffAppId = '1655748594-zRdkN6ko';
-        function initializeLiff(myLiffId) {
-            liff
-                .init({
-                    liffId: myLiffId
-                })
-                .then(() => {
-                    //取得QueryString
-                    let urlParams = new URLSearchParams(window.location.search);
-                    //顯示QueryString
-                    $('#QueryString').val(urlParams.toString());
-                    //顯示UserId
-                    liff.getProfile().then(function (e) {
-                        $('#field_info').val(e.userId);
-                    });
-                })
-                .catch((err) => {
-                    alert(JSON.stringify(err));
-                });
-        }
-
-        $(document).ready(function () {
-            //init LIFF
-            initializeLiff(YourLiffAppId);
-            $('#ButtonScan').click(() => {
-                liff.scanCode().then((ret) => {
-                    //alert(JSON.stringify(ret));
-                    $('#field_info').val(ret.value);
-                }, (err) => {
-                    alert(JSON.stringify(err));
-                }
-                );
-            });
-
-            $('#ButtonGetOS').click(() => {
-                var info = liff.getOS();
-                $('#field_info').val(info);
-            });
-
-            $('#ButtonGetLanguage').click(() => {
-                var info = liff.getLanguage();
-                $('#field_info').val(info);
-            });
-
-            //ButtonGetProfile
-            $('#ButtonGetProfile').click(() => {
-                //取得User Proile
-                liff.getProfile().then(
-                    (profile) => {
-                        //顯示在text box中
-                        $('#field_info').val(profile.displayName);
-                        //可以alert
-                        alert('done');
-                    }
-                );
-            });
-
-            //ButtonSendMsg
-            $('#ButtonSendMsg').click(function () {
-                liff.sendMessages([
-                    {
-                        type: 'text',
-                        text: $('#msg').val()
-                    }
-                ])
-                    .then(() => {
-                        alert('done');
-                    })
-            });
-        });
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LIFF 表單測試</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     <div class="row">
         <div id="MainDiv" class="col-md-6" style="margin:5px">
-            <label>QueryString:</label>
-            <input class="form-control" type="text" id="QueryString" /><br />
-            <label>info:</label>
-            <textarea class="form-control" rows="3" type="text" id="field_info"></textarea>   <br />
-            <button class="btn btn-primary" id="ButtonGetOS">Get OS info</button>
-            <button class="btn btn-primary" id="ButtonGetLanguage">Get Language</button>
-            <button class="btn btn-primary" id="ButtonScan">掃描 QR Code</button>
-            <button class="btn btn-primary" id="ButtonGetProfile">Get User Profile</button>
-            <hr />
-            <label>要傳送的訊息:</label>
-            <input class="form-control" type="text" id="msg" value="測試文字" /><br />
-            <button class="btn btn-primary" id="ButtonSendMsg">要傳送的訊息</button>
-            <hr />
+            <label>點餐1:</label>
+            <input class="form-control" type="text" id="meal01" />
+            <input class="form-control" type="text" id="meal01_add" /><br />
+
+            <label>點餐2:</label>
+            <input class="form-control" type="text" id="meal02" />
+            <input class="form-control" type="text" id="meal02_add" /><br />
+
+            <label>點餐3:</label>
+            <input class="form-control" type="text" id="meal03" />
+            <input class="form-control" type="text" id="meal03_add" /><br />
+
+            <label>價格:</label>
+            <input class="form-control" type="text" id="price" /><br />
+
+            <label>團號:</label>
+            <input class="form-control" type="text" id="G_number" /><br />
+
+            <button class="btn btn-primary" id="ButtonSendMsg">送出</button>
         </div>
     </div>
+
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+	<script>
+        function initializeLiff(myLiffId) {
+            liff.init({liffId: myLiffId });
+        }
+
+		function pushMsg(m1, m1a, m2, m2a, m3, m3a, price, G_number) {
+			if (m1 == '' ) {  //資料檢查
+				alert('至少輸入1項餐點');
+            }else if (price == '' ) {
+                alert('未輸入價格');
+            }else if (G_number == '' ) {
+                alert('未輸入團號');
+            }
+
+			var msg = '';  //回傳訊息字串
+			msg = msg + m1 + " ";
+			msg = msg + price + " ";
+			msg = msg + G_number;
+			
+            alert(msg)
+		}
+
+		$(document).ready(function () {
+			initializeLiff('{{ liffid }}');  //接收傳遞的 liffid 參數
+			$('#sure').click(function (e) {  //按下確定鈕
+				pushMsg($('meal01').val(), $('meal01_add').val(), $('meal02').val(), $('meal02_add').val(), $('meal03').val(), $('meal03_add').val(), $('price').val(), $('G_number').val());
+			});
+		});
+	</script>
 </body>
 </html>
