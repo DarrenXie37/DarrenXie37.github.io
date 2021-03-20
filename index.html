@@ -8,30 +8,32 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 
-<body>
-    <div class="row">
-        <div id="MainDiv" class="col-md-6" style="margin:5px">
-            <label>點餐1:</label>
-            <input class="form-control" type="text" id="meal01" />
-            <input class="form-control" type="text" id="meal01_add" /><br />
+<body style="background-color:#c8a58c;">
+    <div class="row" style="margin: 10px">
+        <div id="MainDiv" class="col-md-2" style="margin:5px">
+            <label><font face="Microsoft JhengHei"><b>點餐1:</b></font></label>
+            <input class="form-control" type="text" id="meal01" style='background-color:#faf0e6'/>
+            <input class="form-control" type="text" id="meal01_add" style='background-color:#faf0e6'/><br />
 
-            <label>點餐2:</label>
-            <input class="form-control" type="text" id="meal02" />
-            <input class="form-control" type="text" id="meal02_add" /><br />
+            <label><font face="Microsoft JhengHei"><b>點餐2:</b></font></label>
+            <input class="form-control" type="text" id="meal02" style='background-color:#faf0e6'/>
+            <input class="form-control" type="text" id="meal02_add" style='background-color:#faf0e6'/><br />
 
-            <label>點餐3:</label>
-            <input class="form-control" type="text" id="meal03" />
-            <input class="form-control" type="text" id="meal03_add" /><br />
+            <label><font face="Microsoft JhengHei"><b>點餐3:</b></font></label>
+            <input class="form-control" type="text" id="meal03" style='background-color:#faf0e6'/>
+            <input class="form-control" type="text" id="meal03_add" style='background-color:#faf0e6'/><br />
 
-            <label>價格:</label>
-            <input class="form-control" type="text" id="price" /><br />
+            <label><font face="Microsoft JhengHei"><b>價格:</b></font></label>
+            <input class="form-control" type="text" id="price" style='background-color:#faf0e6'/><br />
 
-            <label>團號:</label>
-            <input class="form-control" type="text" id="G_number" /><br />
+            <label><font face="Microsoft JhengHei"><b>團號:</b></font></label>
+            <input class="form-control" type="text" id="G_number" style='background-color:#faf0e6'/><br />
 
-            <button class="btn btn-primary" id="ButtonSendMsg">送出</button>
+            <center><button class="btn btn-primary" id="ButtonSendMsg" style="width:160px;height:40px;background-color:#8c6357;border:5px #ffffff">送出</button></center>
         </div>
     </div>
+	
+
 
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
 	<script>
@@ -39,29 +41,57 @@
             liff.init({liffId: myLiffId });
         }
 
-	function pushMsg(m1, m1a, m2, m2a, m3, m3a, price, G_number) {
-            if (m1 == '' ) {  //資料檢查
+	    function pushMsg(m1, m1a, m2, m2a, m3, m3a, price, G_number) {
+            var darren = m1 + m2 + m3
+            if (darren == '') {  //資料檢查
             	alert('至少輸入1項餐點');
+				return;
             }else if (price == '' ) {
                 alert('未輸入價格');
+				return;
             }else if (G_number == '' ) {
                 alert('未輸入團號');
+				return;
             }
 
-            var msg = '';  //回傳訊息字串
-            msg = msg + m1 + " ";
+            var meal = ''
+            if (m1a != '') {
+                meal = m1 + '(' + m1a + ') ';
+            }else{
+                meal = m1 +' ';
+            }
+
+            var meal2 = ''
+            if (m2a != '') {
+                meal2 = m2 + '(' + m2a + ') ';
+            }else if (m2 != ''){
+                meal2 = m2 +' ';
+            }else{
+                meal2 = ''
+            }
+            
+            var meal3 = ''
+            if (m3a != '') {
+                meal3 = m3 + '(' + m3a + ') ';
+            }else if (m3 != ''){
+                meal3 = m3 +' ';
+            }else{
+                meal3 = ''
+            }
+
+            msg = meal + meal2 + meal3
             msg = msg + price + " ";
             msg = msg + G_number;
 			
             alert(msg)
-	}
+	    }
 
-	$(document).ready(function () {
+	    $(document).ready(function () {
             initializeLiff('1655748594-zRdkN6ko');  //接收傳遞的 liffid 參數
             $('#ButtonSendMsg').click(function (e) {  //按下確定鈕
-            	pushMsg($('meal01').val(), $('meal01_add').val(), $('meal02').val(), $('meal02_add').val(), $('meal03').val(), $('meal03_add').val(), $('price').val(), $('G_number').val());
+            	pushMsg($('#meal01').val(), $('#meal01_add').val(), $('#meal02').val(), $('#meal02_add').val(), $('#meal03').val(), $('#meal03_add').val(), $('#price').val(), $('#G_number').val());
             });
-	});
+	    });
 	</script>
 </body>
 </html>
